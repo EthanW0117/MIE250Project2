@@ -107,7 +107,7 @@ public class Vector {
 				if (_adVal[index] != v._adVal[index])
 					return false; // If two Vectors mismatch at any index, they are not equal
 			return true; // Everything matched... objects are equal!
-		} else // if we get here "(o instanceof Vector)" was false
+		} else // if we get here "(o instance of Vector)" was false
 			return false; // Two objects cannot be equal if they don't have the same class type
 	}
 	
@@ -117,7 +117,7 @@ public class Vector {
 	 */
 	public int getDim() {
 		// TODO (this should not return -1!)
-		return -1;
+		return _nDim;
 	}
 
 	/** Returns the value of this vector at the given index (remember: array indices start at 0)
@@ -128,7 +128,10 @@ public class Vector {
 	 */
 	public double get(int index) throws LinAlgException {
 		// TODO (this should not return -1.0!)
-		return -1.0;
+		if (index < 0 || index >= _nDim) {
+			throw new LinAlgException("Index "+ index +" is out of bounds [0, " +_nDim +"]");
+		}
+		return _adVal[index];
 	}
 
 	/** Set the value val of the vector at the given index (remember: array indices start at 0)
@@ -139,6 +142,12 @@ public class Vector {
 	 */
 	public void set(int index, double val) throws LinAlgException {
 		// TODO
+		if (index >= 0 && index < _nDim) {
+			_adVal[index]= val;
+		}
+		else {
+			throw new LinAlgException("Index "+ index +" is out of bounds [0, " +_nDim +"]" );
+		}
 	}
 	
 	/** Change the dimension of this Vector by *reallocating array storage* and copying content over
@@ -149,8 +158,26 @@ public class Vector {
 	 * @param new_dim
 	 * @throws LinAlgException if vector dimension is < 1
 	 */
-	public void changeDim(int new_dim) {
+	public void changeDim(int new_dim) throws LinAlgException {
 		// TODO
+		if (new_dim < 1) {
+			throw new LinAlgException("Vector dimension " + new_dim + " cannot be less than 1");
+		}
+		else {
+			double[] temp = new double [new_dim];
+			if (_nDim < new_dim) {
+				for (int i = 0; i < _nDim; i++) {	
+					temp[i] = _adVal[i];
+				}
+			}
+			if (_nDim > new_dim) {
+				for (int j = 0; j < new_dim; j++) {
+					temp[j] = _adVal[j];
+				}
+			}
+		_nDim = new_dim;
+		_adVal = temp;
+		}
 	}
 	
 	/** This adds a scalar d to all elements of *this* Vector
@@ -169,9 +196,14 @@ public class Vector {
 	 * @param d
 	 * @return new Vector after scalar addition
 	 */
-	public Vector scalarAdd(double d) {
+	public Vector scalarAdd(double d) throws LinAlgException {
 		// TODO (this should not return null!)
-		return null;
+		Vector newVectorAdd = new Vector(this);
+		for (int i = 0; i < _nDim; i++) {
+			//newVector[i] += d; 
+			newVectorAdd.set(i,_adVal[i]+d);
+		}
+		return newVectorAdd;
 	}
 	
 	/** This multiplies a scalar d by all elements of *this* Vector
@@ -181,6 +213,8 @@ public class Vector {
 	 */
 	public void scalarMultInPlace(double d) {
 		// TODO
+		for( int index = 0; index < _nDim; index++)
+			_adVal[index] *= d;
 	}
 	
 	/** This creates a new Vector, multiplies it by a scalar d, and returns it
@@ -189,18 +223,30 @@ public class Vector {
 	 * @param d
 	 * @return new Vector after scalar addition
 	 */
-	public Vector scalarMult(double d) {
+	public Vector scalarMult(double d) throws LinAlgException{
 		// TODO (this should not return null!)
-		return null;
+		Vector newVectorMult = new Vector(this);
+		for (int i = 0; i < _nDim; i++) {
+			newVectorMult.set(i,_adVal[i]*d);;
+		}
+		return newVectorMult;
 	}
 
-	/** Performs an elementwise addition of v to *this*, modifies *this*
+	/** Performs an element wise addition of v to *this*, modifies *this*
 	 * 
 	 * @param v
 	 * @throws LinAlgException if dimensions of the two operand vectors do not match
 	 */
 	public void elementwiseAddInPlace(Vector v) throws LinAlgException {
 		// TODO
+		if (_nDim != v._nDim) {
+			throw new LinAlgException("Cannot elementWiseAdd vectors of different dimensions " + _nDim +" and" +v._nDim);
+		 }
+		else {
+			for (int i = 0; i < _nDim; i++) {
+				_adVal[i] += v.get(i);
+			}
+		}
 	}
 
 	/** Performs an elementwise addition of *this* and v and returns a new Vector with result
@@ -211,7 +257,17 @@ public class Vector {
 	 */
 	public Vector elementwiseAdd(Vector v) throws LinAlgException {
 		// TODO (this should not return null!)
-		return null;
+		Vector newVectorWiseAdd = new Vector(this);
+		
+		if (_nDim != v._nDim) {
+			 throw new LinAlgException("Cannot elementWiseAdd vectors of different dimensions " + _nDim +" and" +v._nDim);
+		 }
+		 else {
+			 for (int i = 0; i < _nDim; i++) {
+				 newVectorWiseAdd.set(i, _adVal[i] + v.get(i));
+			 }
+		 }
+		return newVectorWiseAdd;
 	}
 	
 	/** Performs an elementwise multiplication of v and *this*, modifies *this*
@@ -221,6 +277,14 @@ public class Vector {
 	 */
 	public void elementwiseMultInPlace(Vector v) throws LinAlgException {
 		// TODO
+		if (_nDim != v._nDim) {
+			throw new LinAlgException("Cannot elementWiseAdd vectors of different dimensions " + _nDim +" and" +v._nDim);
+		 }
+		else {
+			for (int i = 0; i < _nDim; i++) {
+				_adVal[i] *= v.get(i);
+			}
+		}
 	}
 
 	/** Performs an elementwise multiplication of *this* and v and returns a new Vector with result
@@ -231,7 +295,17 @@ public class Vector {
 	 */
 	public Vector elementwiseMult(Vector v) throws LinAlgException {
 		// TODO (this should not return null!)
-		return null;
+Vector newVectorWiseMult = new Vector(this);
+		
+		if (_nDim != v._nDim) {
+			throw new LinAlgException("Cannot elementWiseAdd vectors of different dimensions " + _nDim +" and" +v._nDim);
+		 }
+		else {
+			for (int i = 0; i < _nDim; i++) {
+				 newVectorWiseMult.set(i, _adVal[i] * v.get(i));
+			}
+		 }
+		return newVectorWiseMult;
 	}
 
 	/** Performs an inner product of Vectors v1 and v2 and returns the scalar result
@@ -243,6 +317,15 @@ public class Vector {
 	 */
 	public static double InnerProd(Vector v1, Vector v2) throws LinAlgException {
 		// TODO (this should not return -1.0!)
-		return -1.0;
+		double innerProd = 0;
+		if (v1._nDim != v2._nDim) {
+			throw new LinAlgException("Cannot InnerProd vectors of different dimensions " + v1._nDim +" and" + v2._nDim);
+		}
+		else {
+			for (int i = 0; i < v1._nDim; i++) {
+				innerProd += v1.get(i)*v2.get(i);
+			}
+		}
+		return innerProd;
 	}
 }

@@ -24,7 +24,7 @@ public class TestLinAlg {
 			System.out.println("3. ensure v was not modified: " + v);
 			v.scalarAddInPlace(2);
 			System.out.println("4. now v should be modified: " + v);
-			
+		
 			Matrix m = Matrix.GetIdentity(5);
 			System.out.println("5. identity matrix m:\n" + m);
 			System.out.println("6. still identity after self-multiply:\n" + Matrix.Multiply(m, m)); 
@@ -32,7 +32,7 @@ public class TestLinAlg {
 			m.set(2, 0, 2);
 			m.set(0, 2, 3);
 			m.set(4, 0, 5);
-
+			
 			System.out.println("7. m should be modified:\n" + m); // Remember: this automatically invokes m.toString()!
 			System.out.println("8. result should not be the identity:\n" + Matrix.Multiply(m, m));
 			System.out.println("9. example matrix/vector multiply: " + Matrix.Multiply(m, v));

@@ -19,6 +19,8 @@ public class TestLinAlgSoln {
 			// Note: you need to write your own tests, this is only a small sample and it does not
 			//       test all cases that throw an Exception as required by JavaDoc comments.
 			Vector v = new Vector("[ 1 2 3 4 5 ]");
+			
+			
 			System.out.println("1. test constructor and toString(): " + v); // This automatically invokes v.toString()!
 			System.out.println("2. test scalar addition: " + v.scalarAdd(1));
 			System.out.println("3. ensure v was not modified: " + v);
