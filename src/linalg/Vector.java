@@ -160,21 +160,27 @@ public class Vector {
 	 */
 	public void changeDim(int new_dim) throws LinAlgException {
 		// TODO
+		// Exceptions
 		if (new_dim < 1) {
 			throw new LinAlgException("Vector dimension " + new_dim + " cannot be less than 1");
 		}
 		else {
+			// Create a temporary array to store the new Dimension Vector
 			double[] temp = new double [new_dim];
+			// Discuss different cases
 			if (_nDim < new_dim) {
+				// for loop to fill the larger temporary array with original Vector value, extra indice will be default to 0.000
 				for (int i = 0; i < _nDim; i++) {	
 					temp[i] = _adVal[i];
 				}
 			}
 			if (_nDim > new_dim) {
+				// for loop to fill the smaller temporary array with original Vector value till it reached the last index 
 				for (int j = 0; j < new_dim; j++) {
 					temp[j] = _adVal[j];
 				}
 			}
+		// Change the Dim and adVal in *this*
 		_nDim = new_dim;
 		_adVal = temp;
 		}
@@ -186,6 +192,7 @@ public class Vector {
 	 * @param d
 	 */
 	public void scalarAddInPlace(double d) {
+		// Add d onto Vector one by one
 		for (int index = 0; index < _nDim; index++)
 			_adVal[index] += d;
 	}
@@ -198,6 +205,7 @@ public class Vector {
 	 */
 	public Vector scalarAdd(double d) throws LinAlgException {
 		// TODO (this should not return null!)
+		// Create a new Vector 
 		Vector newVectorAdd = new Vector(this);
 		for (int i = 0; i < _nDim; i++) {
 			//newVector[i] += d; 
@@ -213,6 +221,7 @@ public class Vector {
 	 */
 	public void scalarMultInPlace(double d) {
 		// TODO
+		// Same idea wit Add
 		for( int index = 0; index < _nDim; index++)
 			_adVal[index] *= d;
 	}
@@ -240,7 +249,7 @@ public class Vector {
 	public void elementwiseAddInPlace(Vector v) throws LinAlgException {
 		// TODO
 		if (_nDim != v._nDim) {
-			throw new LinAlgException("Cannot elementWiseAdd vectors of different dimensions " + _nDim +" and" +v._nDim);
+			throw new LinAlgException("Cannot elementWiseAdd vectors of different dimensions " + _nDim +" and " +v._nDim);
 		 }
 		else {
 			for (int i = 0; i < _nDim; i++) {
@@ -260,7 +269,7 @@ public class Vector {
 		Vector newVectorWiseAdd = new Vector(this);
 		
 		if (_nDim != v._nDim) {
-			 throw new LinAlgException("Cannot elementWiseAdd vectors of different dimensions " + _nDim +" and" +v._nDim);
+			 throw new LinAlgException("Cannot elementWiseAdd vectors of different dimensions " + _nDim +" and " +v._nDim);
 		 }
 		 else {
 			 for (int i = 0; i < _nDim; i++) {
@@ -278,7 +287,7 @@ public class Vector {
 	public void elementwiseMultInPlace(Vector v) throws LinAlgException {
 		// TODO
 		if (_nDim != v._nDim) {
-			throw new LinAlgException("Cannot elementWiseAdd vectors of different dimensions " + _nDim +" and" +v._nDim);
+			throw new LinAlgException("Cannot elementWiseAdd vectors of different dimensions " + _nDim +" and " +v._nDim);
 		 }
 		else {
 			for (int i = 0; i < _nDim; i++) {
@@ -298,7 +307,7 @@ public class Vector {
 Vector newVectorWiseMult = new Vector(this);
 		
 		if (_nDim != v._nDim) {
-			throw new LinAlgException("Cannot elementWiseAdd vectors of different dimensions " + _nDim +" and" +v._nDim);
+			throw new LinAlgException("Cannot elementWiseAdd vectors of different dimensions " + _nDim +" and " +v._nDim);
 		 }
 		else {
 			for (int i = 0; i < _nDim; i++) {
@@ -317,6 +326,7 @@ Vector newVectorWiseMult = new Vector(this);
 	 */
 	public static double InnerProd(Vector v1, Vector v2) throws LinAlgException {
 		// TODO (this should not return -1.0!)
+		// Create a new double Variable to store the innerprod value 
 		double innerProd = 0;
 		if (v1._nDim != v2._nDim) {
 			throw new LinAlgException("Cannot InnerProd vectors of different dimensions " + v1._nDim +" and" + v2._nDim);

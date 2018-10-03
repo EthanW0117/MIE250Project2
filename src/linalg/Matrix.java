@@ -21,11 +21,13 @@ public class Matrix {
 	 * @param cols
 	 * @throws LinAlgException if either rows or cols is <= 0
 	 */
+	// Create a Matrix with Default ( all elements are 0.000)
 	public Matrix(int rows, int cols) throws LinAlgException {
 		// TODO: hint: see the corresponding Vector constructor		
 		if (rows <= 0 || cols <= 0) {
 			throw new LinAlgException("Both dimensions (" + rows + "," + cols +") must be greater than 0");
 		}
+	
 		_nRows = rows;
 		_nCols = cols;
 		_adVals = new double[rows][cols];
@@ -41,6 +43,7 @@ public class Matrix {
 		_nRows = m._nRows;
 		_nCols = m._nCols;
 		_adVals = new double[_nRows][_nCols];
+		// two for loops to fill the new Matrix one by one from the existing Matrix
 		for (int i = 0; i < _nRows; i++) {
 			for (int j = 0; j < _nCols; j++) {
 				_adVals[i][j] = m._adVals[i][j];		
@@ -54,16 +57,13 @@ public class Matrix {
 	public String toString() {
 		// TODO: hint: see Vector.toString() for an example
 		StringBuilder sb =  new StringBuilder();
-		sb.append("[");
+
 		for (int i = 0; i < _nRows; i++) {
+			sb.append("[");
 			for (int j = 0; j < _nCols; j++) {
 				sb.append(String.format(" %6.3f ", _adVals[i][j]));
 			}
 			sb.append(" ] \n");
-			if (i < _nRows-1)
-				sb.append("[");
-			else 
-				break;
 		}
 		return sb.toString();
 	}
@@ -135,6 +135,7 @@ public class Matrix {
 		if (row < 0 || row >= _nRows)
 			throw new LinAlgException("Row index (" + row + ") out of bounds [0," + _nRows + "])");
 		Vector v = new Vector(_nCols);
+		// to get a row, row value dont need to change, col++ 
 		for (int j = 0; j < _nCols; j++) {
 			v.set(j, _adVals[row][j]);
 		}
@@ -190,6 +191,7 @@ public class Matrix {
 		if (dim <= 0) 
 			throw new LinAlgException("Size " + dim + " must be greater than 0");
 		Matrix identityMatrix = new Matrix(dim,dim);
+		// IdentityMatrix only row == col, the value is 1, others remain 0
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
 				if (i == j) {
@@ -213,9 +215,13 @@ public class Matrix {
 		// TODO: this should not return null!
 		if (m1._nCols != m2._nRows)
 			throw new LinAlgException("Cannot multiply matrix m1 having " + m1._nCols + " colums with matrix m2 having " + m2._nRows +"rows");
+		// the value of m1's row is the new matrix's row, m2's col is the new matrix's col 
 		Matrix newMatrixMult = new Matrix(m1._nRows, m2._nCols);
+		// define which row from m1 is being used
 		for (int i = 0; i < m1._nRows; i++) {
+			//which col from m2 is being used
 			for (int j = 0; j < m2._nCols; j++) {
+				// how many elements should time their corresponding elements
 				for (int k = 0; k < m2._nRows; k++) {
 					newMatrixMult._adVals[i][j] += m1._adVals[i][k]*m2._adVals[k][j];
 				}
@@ -233,6 +239,7 @@ public class Matrix {
 	 */
 	public static Vector Multiply(Matrix m, Vector v) throws LinAlgException {
 		// TODO: this should not return null!
+		// same idea of matrix mult
 		if (v.getDim() != m._nCols)
 			throw new LinAlgException("Cannot multiply matrix with " + m._nCols + " columns with a vector of dimension " + v.getDim());
 		Vector newMixedMult = new Vector(m._nRows);

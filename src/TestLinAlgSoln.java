@@ -20,7 +20,6 @@ public class TestLinAlgSoln {
 			//       test all cases that throw an Exception as required by JavaDoc comments.
 			Vector v = new Vector("[ 1 2 3 4 5 ]");
 			
-			
 			System.out.println("1. test constructor and toString(): " + v); // This automatically invokes v.toString()!
 			System.out.println("2. test scalar addition: " + v.scalarAdd(1));
 			System.out.println("3. ensure v was not modified: " + v);
@@ -53,6 +52,42 @@ public class TestLinAlgSoln {
 			System.out.println("14. should work:\n" + Matrix.Multiply(m4, v));
 			System.out.println("15. should throw Exception: " + Matrix.Multiply(m3, v));
 		
+			//test case 1
+//			Vector v1 = new Vector("[ 2 3 4 5 6 ]");
+//			Vector v2 = new Vector(v1);
+//			System.out.println(v1.get(1));
+//			System.out.println(v1.getDim());
+//			v1.set(3, 6);
+//			System.out.println(v1);
+//			//v1.changeDim(0);
+//			//v1.changeDim(3);
+//			//v2.changeDim(8);
+//			System.out.println(v2);
+//			System.out.println(v1);
+//			v1.elementwiseAdd(v2);
+//			System.out.println(v1);
+//			System.out.println(v1.InnerProd(v1,v2));
+//			System.out.println(v1.elementwiseMult(v2));
+//			System.out.println(v1);
+//			v2.changeDim(6);
+//			//v1.elementwiseAddInPlace(v2);
+//			//System.out.println(v1+"\nSplit");
+//			
+//			Matrix m1 = new Matrix(5,6);
+//			Matrix m2 = Matrix.GetIdentity(6);
+//			m1.set(0, 1, 2);
+//			m1.set(4, 2, 2);
+//			m1.set(2, 3, 4);
+//			m1.set(0, 4, 8);
+//			m2.set(0, 3, 7);
+//			m2.set(4, 3, 2);
+//			m2.set(3, 1, 5);
+//			System.out.println(m1);
+//			System.out.println(m2);
+//			System.out.println(m1.Multiply(m1, m2));
+//			System.out.println(m1);
+//			System.out.println(m1.Multiply(m1, v2));
+			
 		} catch (LinAlgException e) {
 			System.out.println("EXCEPTION: " + e.getMessage());
 			System.exit(1); // Exits the program
